@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">reddit</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+
+
+<!--    Authentication-->
+
+    <string name="parse_url">https://www.reddit.com/api/v1/authorize</string>
+    <string name="client_id">yDzKaSHnxkkPfRbZtIIMRA</string>
+    <string name="response_type">code</string>
+    <string name="state">redditappstate</string>
+    <string name="redirect_uri">app://oauth</string>
+    <string name="duration">permanent</string>
+    <string name="scope">identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread</string>
+
+    <string name="credentials">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
+    <string name="grant_type">authorization_code</string>
+
+</resources>
