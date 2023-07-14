@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.project.reddit.databinding.ActivityMainBinding
-import com.project.reddit.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,6 +19,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.checkIfAccessTokenDataExists()
+
+        viewModel.accessTokenExists.observe(this) {
+            if (it) {
+                startActivity(Intent(this, NavigationActivity::class.java))
+            }
+        }
 
         binding.pressButton.setOnClickListener {
             openBrowser()
@@ -48,20 +55,12 @@ class MainActivity : AppCompatActivity() {
         if (deepLinkUrl.queryParameterNames.contains("code")) {
             val authCode = deepLinkUrl.getQueryParameter("code") ?: return
 //            Log.d("XXXXX", "Your code is $authCode")
-
             viewModel.createAccessTokenData(
                 resources.getString(R.string.credentials),
                 resources.getString(R.string.grant_type),
                 authCode,
                 resources.getString(R.string.redirect_uri)
             )
-
-            viewModel.accessTokenExists.observe(this) {
-                if (it) {
-                    startActivity(Intent(this, NavigationActivity::class.java))
-                }
-            }
-
         }
     }
 
