@@ -5,9 +5,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_profile">Profile</string>
 
+    <string name="boarding_title_one">Welcome to Reddit!</string>
+    <string name="boarding_description_one">Here you can find communities according to your interests.</string>
+    <string name="boarding_title_two">Talk to people</string>
+    <string name="boarding_description_two">Find people with the same interests as you</string>
+    <string name="boarding_login_button">Login</string>
 
 
-<!--    Authentication-->
+    <!--    Authentication-->
 
     <string name="parse_url">https://www.reddit.com/api/v1/authorize</string>
     <string name="client_id">yDzKaSHnxkkPfRbZtIIMRA</string>
@@ -19,5 +24,6 @@
 
     <string name="credentials">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
     <string name="grant_type">authorization_code</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
