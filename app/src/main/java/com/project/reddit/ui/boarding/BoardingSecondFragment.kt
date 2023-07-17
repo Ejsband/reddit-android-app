@@ -1,4 +1,4 @@
-package com.project.reddit
+package com.project.reddit.ui.boarding
 
 import android.os.Bundle
 import android.view.LayoutInflater

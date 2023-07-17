@@ -1,4 +1,4 @@
-package com.project.reddit
+package com.project.reddit.ui
 
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -8,6 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.project.reddit.R
 import com.project.reddit.databinding.ActivityNavigationBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,7 +30,7 @@ class NavigationActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_navigation)
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_profile
+                R.id.navigation_subreddits, R.id.navigation_favourite, R.id.navigation_profile
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

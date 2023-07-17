@@ -1,10 +1,12 @@
-package com.project.reddit
+package com.project.reddit.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
+import com.project.reddit.R
+import com.project.reddit.ui.boarding.BoardingViewPagerAdapter
 import com.project.reddit.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +17,7 @@ class MainActivity : FragmentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private lateinit var adapter: ViewPagerAdapter
+    private lateinit var adapter: BoardingViewPagerAdapter
     private lateinit var viewPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,7 @@ class MainActivity : FragmentActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        adapter = ViewPagerAdapter(this)
+        adapter = BoardingViewPagerAdapter(this)
         binding.viewPagerId.adapter = adapter
 
         viewModel.checkIfAccessTokenDataExists()

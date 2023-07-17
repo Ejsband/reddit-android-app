@@ -13,10 +13,16 @@ import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.project.reddit.MainActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.project.reddit.ui.MainActivity
 import com.project.reddit.R
 import com.project.reddit.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
@@ -31,30 +37,37 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.navbar_logout_menu, menu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-
-                when (menuItem.itemId) {
-                    R.id.logout -> {
-                        createDialog()
-                        return true
-                    }
-                }
-                return false
-            }
-        }, viewLifecycleOwner)
-
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.reloadUserState()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.userState.collect { user ->
+                    with(binding) {
+                        Glide
+                            .with(profilePhoto.context)
+                            .load(user.image)
+                            .into(profilePhoto)
+                        name.text = user.name
+                    }
+                }
+            }
+        }
+
+        binding.buttonLogout.setOnClickListener {
+            createDialog()
+        }
+
+        binding.buttonFriends.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_friend)
+        }
+
     }
 
     override fun onDestroyView() {

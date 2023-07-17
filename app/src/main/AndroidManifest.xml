@@ -17,11 +17,11 @@
         android:theme="@style/Theme.Reddit"
         tools:targetApi="31">
         <activity
-            android:name=".NavigationActivity"
+            android:name=".ui.NavigationActivity"
             android:exported="false"
             android:label="@string/title_activity_navigation" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="fullSensor">

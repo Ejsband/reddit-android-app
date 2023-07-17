@@ -1,9 +1,25 @@
 <resources>
     <string name="app_name">reddit</string>
     <string name="title_activity_navigation">NavigationActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_subreddits">Subreddits</string>
+    <string name="title_favourite">Favourite</string>
     <string name="title_profile">Profile</string>
+    <string name="title_profile_friend">Friend list</string>
+
+
+    <!--    Favourite-->
+
+    <string name="button_subreddits">posts</string>
+    <string name="button_comments">comments</string>
+    <string name="button_saved_comments">saved</string>
+
+    <!--    Profile-->
+
+    <string name="button_friends">friends list</string>
+    <string name="button_clear">clear data</string>
+    <string name="button_logout">logout</string>
+
+    <!--    Boarding-->
 
     <string name="boarding_title_one">Welcome to Reddit!</string>
     <string name="boarding_description_one">Here you can find communities according to your interests.</string>

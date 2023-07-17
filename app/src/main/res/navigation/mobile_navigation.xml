@@ -3,23 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_subreddits">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.project.reddit.ui.home.HomeFragment"
-        android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/navigation_subreddits"
+        android:name="com.project.reddit.ui.subreddits.SubredditsFragment"
+        android:label="@string/title_subreddits"
+        tools:layout="@layout/fragment_subreddits" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.project.reddit.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_favourite"
+        android:name="com.project.reddit.ui.favourite.FavouriteFragment"
+        android:label="@string/title_favourite"
+        tools:layout="@layout/fragment_favourite" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.project.reddit.ui.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_profile_friend"
+            app:destination="@id/navigation_profile_friend" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_friend"
+        android:name="com.project.reddit.ui.profile.ProfileFriendFragment"
+        android:label="@string/title_profile_friend"
+        tools:layout="@layout/fragment_profile_friend" >
+        <action
+            android:id="@+id/action_navigation_profile_friend_to_navigation_profile"
+            app:destination="@id/navigation_profile" />
+    </fragment>
 </navigation>

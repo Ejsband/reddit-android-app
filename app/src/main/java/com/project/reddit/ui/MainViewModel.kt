@@ -1,4 +1,4 @@
-package com.project.reddit
+package com.project.reddit.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
