@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -66,6 +67,15 @@ class ProfileFragment : Fragment() {
 
         binding.buttonFriends.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_profile_friend)
+        }
+
+        binding.buttonClearData.setOnClickListener {
+            viewModel.deleteUserData()
+            Toast.makeText(
+                requireContext(),
+                "All data deleted",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
     }
