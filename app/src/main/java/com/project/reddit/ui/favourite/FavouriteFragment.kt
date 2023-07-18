@@ -113,9 +113,6 @@ class FavouriteFragment : Fragment() {
                 }
             }
         }
-
-
-
     }
 
     private fun convertUserSubmittedPostDataToPostData(data: List<UserSubmittedPostData>): List<PostData> {

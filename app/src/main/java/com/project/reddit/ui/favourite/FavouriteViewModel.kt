@@ -136,7 +136,7 @@ class FavouriteViewModel @Inject constructor(
             val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
             viewModelScope.launch(Dispatchers.IO) {
                 val user = commonUseCase.getUser(header)
-                val comments = commonUseCase.getUserActivityComments(header, "Mipedian_Speed")
+                val comments = commonUseCase.getUserActivityComments(header, user.name)
 
                 if (comments.data.children.isEmpty()) {
 

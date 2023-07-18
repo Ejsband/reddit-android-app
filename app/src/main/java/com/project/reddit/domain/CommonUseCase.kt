@@ -1,5 +1,6 @@
 package com.project.reddit.domain
 
+import com.project.reddit.entity.SubredditCommon
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
@@ -22,5 +23,17 @@ class CommonUseCase @Inject constructor(private val commonRetrofitRepository: Co
 
     suspend fun getUserActivityComments(accessToken: String, userAlias: String): UserActivityCommentData {
         return commonRetrofitRepository.getUserActivityComments(accessToken, userAlias)
+    }
+
+    suspend fun getPopularSubreddits(accessToken: String, limit: Int): SubredditCommon {
+        return commonRetrofitRepository.getPopularSubreddits(accessToken, limit)
+    }
+
+    suspend fun getNewSubreddits(accessToken: String, limit: Int): SubredditCommon {
+        return commonRetrofitRepository.getNewSubreddits(accessToken, limit)
+    }
+
+    suspend fun searchSubreddits(accessToken: String, limit: Int, query: String): SubredditCommon {
+        return commonRetrofitRepository.searchSubreddits(accessToken, limit, query)
     }
 }

@@ -7,6 +7,10 @@
     <string name="title_profile_friend">Friend list</string>
 
 
+    <!--    Subreddits-->
+
+    <string name="button_subscribe">subscribe</string>
+
     <!--    Favourite-->
 
     <string name="button_subreddits">posts</string>
