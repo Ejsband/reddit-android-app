@@ -10,6 +10,10 @@
     <!--    Subreddits-->
 
     <string name="button_subscribe">subscribe</string>
+    <string name="button_popular">popular</string>
+    <string name="button_new">new</string>
+    <string name="button_search">search</string>
+    <string name="button_info">info</string>
 
     <!--    Favourite-->
 

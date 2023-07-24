@@ -1,6 +1,9 @@
 package com.project.reddit.api
 
+import com.project.reddit.entity.CommentCommon
+import com.project.reddit.entity.PostCommon
 import com.project.reddit.entity.SubredditCommon
+import com.project.reddit.entity.SubredditData
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
@@ -18,6 +21,12 @@ interface CommonApi {
     @GET("/api/v1/me")
     suspend fun getUser(
         @Header("Authorization") accessToken: String
+    ): User
+
+    @GET("/user/{userAlias}/about")
+    suspend fun getUserInfo(
+        @Header("Authorization") accessToken: String,
+        @Path("userAlias") userAlias: String
     ): User
 
     @GET("/user/{userAlias}/submitted")
@@ -57,6 +66,24 @@ interface CommonApi {
         @Query("q") query: String
     ): SubredditCommon
 
+    @GET("/r/{subreddit}/about")
+    suspend fun getSubredditInfo(
+        @Header("Authorization") accessToken: String,
+        @Path("subreddit") subreddit: String
+    ): SubredditData
+
+    @GET("/r/{subreddit}")
+    suspend fun getSubredditTopics(
+        @Header("Authorization") accessToken: String,
+        @Query("limit") limit: Int,
+        @Path("subreddit") subreddit: String
+    ): PostCommon
+
+    @GET("{link}")
+    suspend fun getTopicComments(
+        @Header("Authorization") accessToken: String,
+        @Path("link") link: String
+    ): List<CommentCommon>
 
     companion object {
         fun create(): CommonApi {

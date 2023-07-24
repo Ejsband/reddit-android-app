@@ -1,7 +1,10 @@
 package com.project.reddit.repository
 
 import com.project.reddit.api.CommonApi
+import com.project.reddit.entity.CommentCommon
+import com.project.reddit.entity.PostCommon
 import com.project.reddit.entity.SubredditCommon
+import com.project.reddit.entity.SubredditData
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
@@ -13,6 +16,10 @@ class CommonRetrofitRepository @Inject constructor() {
 
     suspend fun getUser(accessToken: String): User {
         return commonApi.getUser(accessToken)
+    }
+
+    suspend fun getUserInfo(accessToken: String, userAlias: String): User {
+        return commonApi.getUserInfo(accessToken, userAlias)
     }
 
     suspend fun getUserActivityPosts(accessToken: String, userAlias: String): UserActivityPostData {
@@ -37,5 +44,17 @@ class CommonRetrofitRepository @Inject constructor() {
 
     suspend fun searchSubreddits(accessToken: String, limit: Int, query: String): SubredditCommon {
         return commonApi.searchSubreddits(accessToken, limit, query)
+    }
+
+    suspend fun getSubredditInfo(accessToken: String, subreddit: String): SubredditData {
+        return commonApi.getSubredditInfo(accessToken, subreddit)
+    }
+
+    suspend fun getSubredditTopics(accessToken: String, limit: Int, subreddit: String): PostCommon {
+        return commonApi.getSubredditTopics(accessToken, limit, subreddit)
+    }
+
+    suspend fun getTopicComments(accessToken: String, link: String): List<CommentCommon> {
+        return commonApi.getTopicComments(accessToken, link)
     }
 }

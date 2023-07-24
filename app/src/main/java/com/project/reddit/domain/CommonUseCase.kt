@@ -1,6 +1,9 @@
 package com.project.reddit.domain
 
+import com.project.reddit.entity.CommentCommon
+import com.project.reddit.entity.PostCommon
 import com.project.reddit.entity.SubredditCommon
+import com.project.reddit.entity.SubredditData
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
@@ -11,6 +14,10 @@ class CommonUseCase @Inject constructor(private val commonRetrofitRepository: Co
 
     suspend fun getUser(accessToken: String): User {
         return commonRetrofitRepository.getUser(accessToken)
+    }
+
+    suspend fun getUserInfo(accessToken: String, userAlias: String): User {
+        return commonRetrofitRepository.getUserInfo(accessToken, userAlias)
     }
 
     suspend fun getUserActivityPosts(accessToken: String, userAlias: String): UserActivityPostData {
@@ -35,5 +42,17 @@ class CommonUseCase @Inject constructor(private val commonRetrofitRepository: Co
 
     suspend fun searchSubreddits(accessToken: String, limit: Int, query: String): SubredditCommon {
         return commonRetrofitRepository.searchSubreddits(accessToken, limit, query)
+    }
+
+    suspend fun getSubredditInfo(accessToken: String, subreddit: String): SubredditData {
+        return commonRetrofitRepository.getSubredditInfo(accessToken, subreddit)
+    }
+
+    suspend fun getSubredditTopics(accessToken: String, limit: Int, subreddit: String): PostCommon {
+        return commonRetrofitRepository.getSubredditTopics(accessToken, limit, subreddit)
+    }
+
+    suspend fun getTopicComments(accessToken: String, link: String): List<CommentCommon> {
+        return commonRetrofitRepository.getTopicComments(accessToken, link)
     }
 }

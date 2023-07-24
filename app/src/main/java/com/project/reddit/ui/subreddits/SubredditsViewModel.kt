@@ -4,14 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.reddit.domain.AccessTokenDataUseCase
 import com.project.reddit.domain.CommonUseCase
-import com.project.reddit.entity.PostData
-import com.project.reddit.entity.PostDataChildren
+import com.project.reddit.entity.Post
+import com.project.reddit.entity.PostCommon
+import com.project.reddit.entity.PostCommonChildren
+import com.project.reddit.entity.PostItemData
 import com.project.reddit.entity.Subreddit
 import com.project.reddit.entity.SubredditCommon
 import com.project.reddit.entity.SubredditCommonChildren
 import com.project.reddit.entity.SubredditData
-import com.project.reddit.entity.UserActivityPost
-import com.project.reddit.entity.UserActivityPostData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +24,35 @@ class SubredditsViewModel @Inject constructor(
     private val accessTokenDataUseCase: AccessTokenDataUseCase,
     private val commonUseCase: CommonUseCase
 ) : ViewModel() {
+
+    private val _postState = MutableStateFlow(
+        PostCommon(
+            PostCommonChildren(
+                mutableListOf(
+                    PostItemData(
+                        Post(
+                            title = "Nothing to show",
+                            text = "",
+                            author = "",
+                            link = ""
+                        )
+                    )
+                )
+            )
+        )
+    )
+    val postState = _postState.asStateFlow()
+
+    fun reloadPostState(postName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            val posts = commonUseCase.getSubredditTopics(header, 100, postName)
+            _postState.value = posts
+        }
+    }
+
+
 
     private val _popularSubredditState = MutableStateFlow(
         SubredditCommon(
@@ -97,11 +126,11 @@ class SubredditsViewModel @Inject constructor(
     )
     val searchSubredditState = _searchSubredditState.asStateFlow()
 
-    fun reloadSearchSubredditState() {
+    fun reloadSearchSubredditState(query: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
             val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
-            val subreddits = commonUseCase.searchSubreddits(header, 100, "old")
+            val subreddits = commonUseCase.searchSubreddits(header, 100, query)
             _searchSubredditState.value = subreddits
         }
     }
