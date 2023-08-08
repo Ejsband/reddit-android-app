@@ -8,20 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
 import com.project.reddit.databinding.FragmentSubredditsBinding
-import com.project.reddit.entity.UserActivityPostData
-import com.project.reddit.ui.favourite.FavouritePostAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SubredditsFragment : Fragment() {
+class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
 
     private var _binding: FragmentSubredditsBinding? = null
     private val binding get() = _binding!!
@@ -68,7 +66,7 @@ class SubredditsFragment : Fragment() {
         if (checkConnection()) {
             viewModel.reloadPopularSubredditState()
             val data = viewModel.popularSubredditState.value
-            val myAdapter = SubredditsAdapter(data.data.children)
+            val myAdapter = SubredditsAdapter(data.data.children, this)
             binding.recycler.adapter = myAdapter
 
             viewLifecycleOwner.lifecycleScope.launch {
@@ -89,7 +87,7 @@ class SubredditsFragment : Fragment() {
         if (checkConnection()) {
             viewModel.reloadNewSubredditState()
             val data = viewModel.newSubredditState.value
-            val myAdapter = SubredditsAdapter(data.data.children)
+            val myAdapter = SubredditsAdapter(data.data.children, this)
             binding.recycler.adapter = myAdapter
 
             viewLifecycleOwner.lifecycleScope.launch {
@@ -115,7 +113,7 @@ class SubredditsFragment : Fragment() {
 
                 viewModel.reloadSearchSubredditState(input.toString())
                 val data = viewModel.searchSubredditState.value
-                val myAdapter = SubredditsAdapter(data.data.children)
+                val myAdapter = SubredditsAdapter(data.data.children, this)
                 binding.recycler.adapter = myAdapter
 
                 viewLifecycleOwner.lifecycleScope.launch {
@@ -144,5 +142,14 @@ class SubredditsFragment : Fragment() {
             ).show()
             false
         }
+    }
+
+    override fun onItemClick(position: Int) {
+
+//        Toast.makeText(
+//            requireContext(),
+//            "Button was clicked",
+//            Toast.LENGTH_LONG
+//        ).show()
     }
 }
