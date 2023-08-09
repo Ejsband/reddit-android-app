@@ -50,8 +50,8 @@ class CommonRetrofitRepository @Inject constructor() {
         return commonApi.getSubredditInfo(accessToken, subreddit)
     }
 
-    suspend fun getSubredditTopics(accessToken: String, limit: Int, subreddit: String): PostCommon {
-        return commonApi.getSubredditTopics(accessToken, limit, subreddit)
+    suspend fun getSubredditTopics(accessToken: String, subreddit: String, limit: Int): PostCommon {
+        return commonApi.getSubredditTopics(accessToken, subreddit, limit)
     }
 
     suspend fun getTopicComments(accessToken: String, link: String): List<CommentCommon> {

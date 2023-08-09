@@ -25,6 +25,29 @@ class SubredditsViewModel @Inject constructor(
     private val commonUseCase: CommonUseCase
 ) : ViewModel() {
 
+    private val _subredditInfoState = MutableStateFlow(
+        SubredditData(
+            Subreddit(
+                name = "Blank",
+                title = "",
+                url = "",
+                icon = ""
+            )
+        )
+    )
+    val subredditInfoState = _subredditInfoState.asStateFlow()
+
+    fun reloadSubredditInfoState(subredditName: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            val subreddit = commonUseCase.getSubredditInfo(header, subredditName)
+            _subredditInfoState.value = subreddit
+        }
+    }
+
+
+
     private val _postState = MutableStateFlow(
         PostCommon(
             PostCommonChildren(
@@ -33,8 +56,9 @@ class SubredditsViewModel @Inject constructor(
                         Post(
                             title = "Nothing to show",
                             text = "",
-                            author = "",
-                            link = ""
+                            author = "ewtyewy",
+                            link = "",
+                            image = ""
                         )
                     )
                 )
@@ -43,16 +67,14 @@ class SubredditsViewModel @Inject constructor(
     )
     val postState = _postState.asStateFlow()
 
-    fun reloadPostState(postName: String) {
+    fun reloadPostState(subredditName: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
             val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
-            val posts = commonUseCase.getSubredditTopics(header, 100, postName)
+            val posts = commonUseCase.getSubredditTopics(header, subredditName, 100)
             _postState.value = posts
         }
     }
-
-
 
     private val _popularSubredditState = MutableStateFlow(
         SubredditCommon(

@@ -48,8 +48,8 @@ class CommonUseCase @Inject constructor(private val commonRetrofitRepository: Co
         return commonRetrofitRepository.getSubredditInfo(accessToken, subreddit)
     }
 
-    suspend fun getSubredditTopics(accessToken: String, limit: Int, subreddit: String): PostCommon {
-        return commonRetrofitRepository.getSubredditTopics(accessToken, limit, subreddit)
+    suspend fun getSubredditTopics(accessToken: String, subreddit: String, limit: Int): PostCommon {
+        return commonRetrofitRepository.getSubredditTopics(accessToken, subreddit, limit)
     }
 
     suspend fun getTopicComments(accessToken: String, link: String): List<CommentCommon> {

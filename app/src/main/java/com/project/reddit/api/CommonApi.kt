@@ -75,8 +75,8 @@ interface CommonApi {
     @GET("/r/{subreddit}")
     suspend fun getSubredditTopics(
         @Header("Authorization") accessToken: String,
-        @Query("limit") limit: Int,
-        @Path("subreddit") subreddit: String
+        @Path("subreddit") subreddit: String,
+        @Query("limit") limit: Int
     ): PostCommon
 
     @GET("{link}")

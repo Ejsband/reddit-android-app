@@ -2,6 +2,8 @@
     <string name="app_name">reddit</string>
     <string name="title_activity_navigation">NavigationActivity</string>
     <string name="title_subreddits">Subreddits</string>
+    <string name="title_posts">Posts</string>
+    <string name="title_subreddit_info">Subreddit info</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_profile">Profile</string>
     <string name="title_profile_friend">Friend list</string>
@@ -48,6 +50,5 @@
 
     <string name="credentials">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
     <string name="grant_type">authorization_code</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

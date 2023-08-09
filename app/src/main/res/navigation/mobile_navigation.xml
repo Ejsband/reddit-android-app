@@ -9,7 +9,34 @@
         android:id="@+id/navigation_subreddits"
         android:name="com.project.reddit.ui.subreddits.SubredditsFragment"
         android:label="@string/title_subreddits"
-        tools:layout="@layout/fragment_subreddits" />
+        tools:layout="@layout/fragment_subreddits" >
+        <action
+            android:id="@+id/action_navigation_subreddits_to_navigation_posts"
+            app:destination="@id/navigation_posts" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_posts"
+        android:name="com.project.reddit.ui.subreddits.PostsFragment"
+        android:label="@string/title_posts"
+        tools:layout="@layout/fragment_posts" >
+        <action
+            android:id="@+id/action_navigation_posts_to_navigation_subreddits"
+            app:destination="@id/navigation_subreddits" />
+        <action
+            android:id="@+id/action_navigation_posts_to_navigation_subreddit_info"
+            app:destination="@id/navigation_subreddit_info" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_subreddit_info"
+        android:name="com.project.reddit.ui.subreddits.SubredditInfoFragment"
+        android:label="@string/title_subreddit_info"
+        tools:layout="@layout/fragment_subreddit_info" >
+        <action
+            android:id="@+id/action_navigation_subreddit_info_to_navigation_posts"
+            app:destination="@id/navigation_posts" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_favourite"

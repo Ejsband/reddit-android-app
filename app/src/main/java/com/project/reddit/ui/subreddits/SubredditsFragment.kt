@@ -14,6 +14,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.project.reddit.R
 import com.project.reddit.databinding.FragmentSubredditsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -145,6 +147,21 @@ class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.popularSubredditState.collect { subreddit ->
+
+                    val data = subreddit.data.children[position]
+                    val bundle = Bundle()
+
+                    bundle.putString("subredditName", data.data.title)
+
+                    findNavController().navigate(R.id.action_navigation_subreddits_to_navigation_posts, bundle)
+                }
+            }
+        }
 
 //        Toast.makeText(
 //            requireContext(),

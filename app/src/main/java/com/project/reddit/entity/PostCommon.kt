@@ -26,4 +26,6 @@ class Post(
     val author: String,
     @SerializedName("permalink")
     val link: String,
+    @SerializedName("thumbnail")
+    val image: String
 )
