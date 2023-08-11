@@ -4,6 +4,7 @@
     <string name="title_subreddits">Subreddits</string>
     <string name="title_posts">Posts</string>
     <string name="title_subreddit_info">Subreddit info</string>
+    <string name="title_subreddit_comments">Post</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_profile">Profile</string>
     <string name="title_profile_friend">Friend list</string>
@@ -50,5 +51,7 @@
 
     <string name="credentials">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
     <string name="grant_type">authorization_code</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

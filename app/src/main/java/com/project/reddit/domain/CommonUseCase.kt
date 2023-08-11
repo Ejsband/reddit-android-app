@@ -55,4 +55,16 @@ class CommonUseCase @Inject constructor(private val commonRetrofitRepository: Co
     suspend fun getTopicComments(accessToken: String, link: String): List<CommentCommon> {
         return commonRetrofitRepository.getTopicComments(accessToken, link)
     }
+
+    suspend fun saveComment(accessToken: String, commentId: String) {
+        return commonRetrofitRepository.saveComment(accessToken, commentId)
+    }
+
+    suspend fun unsaveComment(accessToken: String, commentId: String) {
+        return commonRetrofitRepository.unsaveComment(accessToken, commentId)
+    }
+
+    suspend fun voteComment(accessToken: String, commentId: String, voteDir: String) {
+        return commonRetrofitRepository.voteComment(accessToken, commentId, voteDir)
+    }
 }

@@ -82,7 +82,14 @@ class PostsFragment : Fragment() {
         if (checkConnection()) {
             viewModel.reloadPostState(subredditName)
             val data: PostCommon = viewModel.postState.value
-            val myAdapter = PostsAdapter(data.data.children) { }
+            val myAdapter = PostsAdapter(data.data.children) {position ->
+
+                val bundle = Bundle()
+                bundle.putString("postTitle", viewModel.postState.value.data.children[position].data.title)
+                bundle.putString("postText", viewModel.postState.value.data.children[position].data.text)
+                bundle.putString("postLink", viewModel.postState.value.data.children[position].data.link)
+                findNavController().navigate(R.id.action_navigation_posts_to_navigation_comments, bundle)
+            }
             binding.recycler.adapter = myAdapter
 
             viewLifecycleOwner.lifecycleScope.launch {

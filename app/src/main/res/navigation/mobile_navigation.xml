@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action_navigation_posts_to_navigation_subreddit_info"
             app:destination="@id/navigation_subreddit_info" />
+        <action
+            android:id="@+id/action_navigation_posts_to_navigation_comments"
+            app:destination="@id/navigation_comments" />
     </fragment>
 
     <fragment
@@ -35,6 +38,16 @@
         tools:layout="@layout/fragment_subreddit_info" >
         <action
             android:id="@+id/action_navigation_subreddit_info_to_navigation_posts"
+            app:destination="@id/navigation_posts" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_comments"
+        android:name="com.project.reddit.ui.subreddits.CommentsFragment"
+        android:label="@string/title_subreddit_comments"
+        tools:layout="@layout/fragment_comments" >
+        <action
+            android:id="@+id/action_navigation_comments_to_navigation_posts"
             app:destination="@id/navigation_posts" />
     </fragment>
 

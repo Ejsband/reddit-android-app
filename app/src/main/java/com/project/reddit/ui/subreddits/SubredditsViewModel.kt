@@ -25,10 +25,34 @@ class SubredditsViewModel @Inject constructor(
     private val commonUseCase: CommonUseCase
 ) : ViewModel() {
 
+    fun saveComment(commentId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            commonUseCase.saveComment(header, commentId)
+        }
+    }
+
+    fun unsaveComment(commentId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            commonUseCase.unsaveComment(header, commentId)
+        }
+    }
+
+    fun voteComment(commentId: String, voteDir: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            commonUseCase.voteComment(header, commentId, voteDir)
+        }
+    }
+
     private val _subredditInfoState = MutableStateFlow(
         SubredditData(
             Subreddit(
-                name = "Blank",
+                name = "",
                 title = "",
                 url = "",
                 icon = ""
@@ -46,8 +70,6 @@ class SubredditsViewModel @Inject constructor(
         }
     }
 
-
-
     private val _postState = MutableStateFlow(
         PostCommon(
             PostCommonChildren(
@@ -56,7 +78,7 @@ class SubredditsViewModel @Inject constructor(
                         Post(
                             title = "Nothing to show",
                             text = "",
-                            author = "ewtyewy",
+                            author = "",
                             link = "",
                             image = ""
                         )

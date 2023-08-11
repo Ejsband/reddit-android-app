@@ -11,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -84,6 +85,25 @@ interface CommonApi {
         @Header("Authorization") accessToken: String,
         @Path("link") link: String
     ): List<CommentCommon>
+
+    @POST("/api/save")
+    suspend fun saveComment(
+        @Header("Authorization") accessToken: String,
+        @Query("id") commentId: String
+    )
+
+    @POST("/api/unsave")
+    suspend fun unsaveComment(
+        @Header("Authorization") accessToken: String,
+        @Query("id") commentId: String
+    )
+
+    @POST("/api/vote")
+    suspend fun voteComment(
+        @Header("Authorization") accessToken: String,
+        @Query("id") commentId: String,
+        @Query("dir") voteDir: String
+    )
 
     companion object {
         fun create(): CommonApi {
