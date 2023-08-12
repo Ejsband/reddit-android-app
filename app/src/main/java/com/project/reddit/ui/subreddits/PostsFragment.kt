@@ -21,6 +21,7 @@ import androidx.navigation.fragment.findNavController
 import com.project.reddit.R
 import com.project.reddit.databinding.FragmentPostsBinding
 import com.project.reddit.entity.PostCommon
+import com.project.reddit.ui.subreddits.adapter.PostsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

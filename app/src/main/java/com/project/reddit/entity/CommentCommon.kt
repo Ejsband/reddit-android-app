@@ -20,12 +20,12 @@ class CommentItemData(
 class Comment(
     @SerializedName("name")
     val name: String,
-    @SerializedName("replies")
-    val replies: CommentCommon,
     @SerializedName("author")
     val author: String,
     @SerializedName("created_utc")
     val creationTime: Int,
+    @SerializedName("score")
+    val score: Int,
     @SerializedName("body")
     val text: String
 )

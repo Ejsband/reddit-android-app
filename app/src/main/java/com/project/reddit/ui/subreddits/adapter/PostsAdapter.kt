@@ -1,4 +1,4 @@
-package com.project.reddit.ui.subreddits
+package com.project.reddit.ui.subreddits.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

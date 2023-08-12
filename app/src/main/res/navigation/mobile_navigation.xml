@@ -49,6 +49,38 @@
         <action
             android:id="@+id/action_navigation_comments_to_navigation_posts"
             app:destination="@id/navigation_posts" />
+        <action
+            android:id="@+id/action_navigation_comments_to_navigation_comments_list"
+            app:destination="@id/navigation_comments_list" />
+        <action
+            android:id="@+id/action_navigation_comments_to_navigation_profile_info"
+            app:destination="@id/navigation_profile_info" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_comments_list"
+        android:name="com.project.reddit.ui.subreddits.CommentsListFragment"
+        android:label="@string/title_subreddit_comments"
+        tools:layout="@layout/fragment_comments_list" >
+        <action
+            android:id="@+id/action_navigation_comments_list_to_navigation_comments"
+            app:destination="@id/navigation_comments" />
+        <action
+            android:id="@+id/action_navigation_comments_list_to_navigation_profile_info"
+            app:destination="@id/navigation_profile_info" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_info"
+        android:name="com.project.reddit.ui.subreddits.ProfileInfoFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile_info" >
+        <action
+            android:id="@+id/action_navigation_profile_info_to_navigation_comments_list"
+            app:destination="@id/navigation_comments_list" />
+        <action
+            android:id="@+id/action_navigation_profile_info_to_navigation_comments"
+            app:destination="@id/navigation_comments" />
     </fragment>
 
     <fragment

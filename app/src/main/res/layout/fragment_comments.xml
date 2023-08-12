@@ -44,7 +44,7 @@ The application cannot be translated to other languages by just adding new trans
         app:layout_constraintTop_toBottomOf="@+id/postText" />
 
     <Button
-        android:id="@+id/newButton"
+        android:id="@+id/showAllButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

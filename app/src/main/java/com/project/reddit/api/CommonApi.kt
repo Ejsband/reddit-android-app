@@ -80,10 +80,9 @@ interface CommonApi {
         @Query("limit") limit: Int
     ): PostCommon
 
-    @GET("{link}")
+    @GET("/r/Home/comments/15p31gv/update_neighbors_pergola_encroaching_on_my_air/")
     suspend fun getTopicComments(
-        @Header("Authorization") accessToken: String,
-        @Path("link") link: String
+        @Header("Authorization") accessToken: String
     ): List<CommentCommon>
 
     @POST("/api/save")

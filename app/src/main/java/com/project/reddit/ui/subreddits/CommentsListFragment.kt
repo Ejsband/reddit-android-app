@@ -13,50 +13,34 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
-import com.project.reddit.R
-import com.project.reddit.databinding.FragmentCommentsBinding
+import com.project.reddit.databinding.FragmentCommentsListBinding
 import com.project.reddit.entity.CommentCommon
 import com.project.reddit.ui.subreddits.adapter.CommentsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CommentsFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
+class CommentsListFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
 
-    private var _binding: FragmentCommentsBinding? = null
+    private var _binding: FragmentCommentsListBinding? = null
     private val binding get() = _binding!!
-
     private val viewModel: SubredditsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCommentsBinding.inflate(inflater, container, false)
+    ): View? {
+        _binding = FragmentCommentsListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.postTitle.text = arguments?.getString("postTitle")!!
-        binding.postText.text = arguments?.getString("postText")!!
-
         val link = arguments?.getString("postLink")!!
         Log.d("XXXXX", link)
 
-
         loadComments(link)
-
-        binding.showAllButton.setOnClickListener {
-            val bundle = Bundle()
-            bundle.putString("postLink", link)
-            findNavController().navigate(R.id.action_navigation_comments_to_navigation_comments_list, bundle)
-        }
-
-
-
     }
 
     override fun onDestroyView() {
@@ -100,6 +84,6 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        findNavController().navigate(R.id.action_navigation_comments_to_navigation_profile_info)
+        TODO("Not yet implemented")
     }
 }

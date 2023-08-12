@@ -1,9 +1,14 @@
 package com.project.reddit.ui.subreddits
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.reddit.domain.AccessTokenDataUseCase
 import com.project.reddit.domain.CommonUseCase
+import com.project.reddit.entity.Comment
+import com.project.reddit.entity.CommentCommon
+import com.project.reddit.entity.CommentCommonChildren
+import com.project.reddit.entity.CommentItemData
 import com.project.reddit.entity.Post
 import com.project.reddit.entity.PostCommon
 import com.project.reddit.entity.PostCommonChildren
@@ -24,6 +29,35 @@ class SubredditsViewModel @Inject constructor(
     private val accessTokenDataUseCase: AccessTokenDataUseCase,
     private val commonUseCase: CommonUseCase
 ) : ViewModel() {
+
+    private val _commentState = MutableStateFlow(
+        CommentCommon(
+            CommentCommonChildren(
+                mutableListOf(
+                    CommentItemData(
+                        Comment(
+                            name = "Nothing to show",
+                            author = "",
+                            creationTime = 0,
+                            score = 0,
+                            text = ""
+                        )
+                    )
+                )
+            )
+        )
+    )
+    val commentState = _commentState.asStateFlow()
+
+    fun reloadCommentsState(link: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            val comments = commonUseCase.getTopicComments(header)
+            Log.d("XXXXX", comments.size.toString())
+            _commentState.value = comments[1]
+        }
+    }
 
     fun saveComment(commentId: String) {
         viewModelScope.launch(Dispatchers.IO) {
