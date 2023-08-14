@@ -47,17 +47,15 @@
 
     <!--    Authentication-->
 
-    <string name="parse_url">https://www.reddit.com/api/v1/authorize</string>
-    <string name="client_id">yDzKaSHnxkkPfRbZtIIMRA</string>
-    <string name="response_type">code</string>
-    <string name="state">redditappstate</string>
-    <string name="redirect_uri">app://oauth</string>
-    <string name="duration">permanent</string>
-    <string name="scope">identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread</string>
+    <string name="parse_url" translatable="false">https://www.reddit.com/api/v1/authorize</string>
+    <string name="client_id" translatable="false">yDzKaSHnxkkPfRbZtIIMRA</string>
+    <string name="response_type" translatable="false">code</string>
+    <string name="state" translatable="false">redditappstate</string>
+    <string name="redirect_uri" translatable="false">app://oauth</string>
+    <string name="duration" translatable="false">permanent</string>
+    <string name="scope" translatable="false">identity edit flair history modconfig modflair modlog modposts modwiki mysubreddits privatemessages read report save submit subscribe vote wikiedit wikiread</string>
 
-    <string name="credentials">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
-    <string name="grant_type">authorization_code</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="credentials" translatable="false">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
+    <string name="grant_type" translatable="false">authorization_code</string>
 
 </resources>

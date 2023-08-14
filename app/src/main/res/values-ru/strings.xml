@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">reddit</string>
+    <string name="title_subreddits">Сабреддиты</string>
+    <string name="title_posts">Посты</string>
+    <string name="title_subreddit_info">Информация</string>
+    <string name="title_subreddit_comments">Пост</string>
+    <string name="title_subreddit_comments_list">Комментарии</string>
+    <string name="title_favourite">Избранное</string>
+    <string name="title_profile">Профиль</string>
+    <string name="title_profile_friend">Друзья</string>
+    <string name="comments">Комментарии</string>
+    <string name="add_friend">добавить</string>
+    <string name="remove_friend">удалить</string>
+    <string name="button_subscribe">подписка</string>
+    <string name="button_popular">популярное</string>
+    <string name="button_new">новое</string>
+    <string name="button_search">поиск</string>
+    <string name="button_info">информация</string>
+    <string name="button_subreddits">посты</string>
+    <string name="button_comments">комментарии</string>
+    <string name="button_saved_comments">сохраненное</string>
+    <string name="button_friends">список друзей</string>
+    <string name="button_clear">очистить данные</string>
+    <string name="button_logout">выйти</string>
+    <string name="boarding_title_one">Добро пожаловать!</string>
+    <string name="boarding_description_one">Здесь вы найдете сообщества по интересам</string>
+    <string name="boarding_title_two">Разговаривайте с людьми</string>
+    <string name="boarding_description_two">Найдите людей с интересами как у вас</string>
+    <string name="boarding_login_button">Войти</string>
+    <string name="title_activity_navigation">Приветствуем</string>
+</resources>
