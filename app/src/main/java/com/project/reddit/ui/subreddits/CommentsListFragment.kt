@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CommentsListFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
+class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
 
     private var _binding: FragmentCommentsListBinding? = null
     private val binding get() = _binding!!
@@ -83,7 +83,19 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListen
         }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onTextClick(view: View, position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSaveButtonClick(view: View, position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onMinusButtonClick(view: View, position: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPlusButtonClick(view: View, position: Int) {
         TODO("Not yet implemented")
     }
 }

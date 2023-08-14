@@ -9,6 +9,11 @@
     <string name="title_profile">Profile</string>
     <string name="title_profile_friend">Friend list</string>
 
+    <!--    Profile info-->
+
+    <string name="comments">USER COMMENTS</string>
+    <string name="add_friend">friend</string>
+    <string name="remove_friend">unfriend</string>
 
     <!--    Subreddits-->
 

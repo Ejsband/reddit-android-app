@@ -5,18 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.project.reddit.databinding.ViewSubredditsCommentsBinding
-import com.project.reddit.entity.CommentData
 import com.project.reddit.entity.CommentItemData
-import com.project.reddit.entity.SubredditData
 import java.text.SimpleDateFormat
 import java.util.Date
 
 class CommentsAdapter(
     values: List<CommentItemData>,
-    private val listener: OnSaveButtonClickListener
+    private val listener: OnItemClickListener
 ) : RecyclerView.Adapter<CommentsAdapter.SubredditCommentViewHolder>() {
+
+    private var votePosition = -1
+    private var downVoted = false
+    private var upVoted = false
 
     private var values = values.toMutableList()
 
@@ -40,27 +41,64 @@ class CommentsAdapter(
         holder.binding.authorName.text = item.data.author
         holder.binding.votesNumber.text = item.data.score.toString()
         holder.binding.time.text = getDateTime(item.data.creationTime.toLong())
-
     }
 
+    @SuppressLint("SetTextI18n")
     inner class SubredditCommentViewHolder(val binding: ViewSubredditsCommentsBinding) :
-        RecyclerView.ViewHolder(binding.root),
-        View.OnClickListener {
-        init {
-            binding.saveButton.setOnClickListener(this)
-        }
+        RecyclerView.ViewHolder(binding.root) {
 
-        override fun onClick(p0: View?) {
-            if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
-//                binding.button.text = "unsubscribe"
-//                binding.button.setBackgroundColor(Color.parseColor("#eb5528"))
-                listener.onItemClick(position)
+        init {
+            binding.commentText.setOnClickListener {
+                listener.onTextClick(binding.commentText, absoluteAdapterPosition)
+            }
+            binding.saveButton.setOnClickListener {
+                listener.onSaveButtonClick(binding.saveButton, absoluteAdapterPosition)
+            }
+            binding.minusButton.setOnClickListener {
+                if (votePosition != -1 && votePosition != absoluteAdapterPosition) {
+                    downVoted = false
+                    upVoted = false
+                }
+
+                if (downVoted) {
+
+                } else {
+                    var votes: Int = binding.votesNumber.text.toString().toInt()
+                    binding.votesNumber.text = (votes - 1).toString()
+                    listener.onMinusButtonClick(binding.votesNumber, absoluteAdapterPosition)
+                    votePosition = absoluteAdapterPosition
+                    downVoted = true
+                    upVoted = false
+                }
+
+
+            }
+            binding.plusButton.setOnClickListener {
+
+                if (votePosition != -1 && votePosition != absoluteAdapterPosition) {
+                    downVoted = false
+                    upVoted = false
+                }
+
+                if (upVoted) {
+
+                } else {
+                    var votes: Int = binding.votesNumber.text.toString().toInt()
+                    binding.votesNumber.text = (votes + 1).toString()
+                    listener.onPlusButtonClick(binding.votesNumber, absoluteAdapterPosition)
+                    votePosition = absoluteAdapterPosition
+                    upVoted = true
+                    downVoted = false
+                }
             }
         }
     }
 
-    interface OnSaveButtonClickListener {
-        fun onItemClick(position: Int)
+    interface OnItemClickListener {
+        fun onTextClick(view: View, position: Int)
+        fun onSaveButtonClick(view: View, position: Int)
+        fun onMinusButtonClick(view: View, position: Int)
+        fun onPlusButtonClick(view: View, position: Int)
     }
 
     @SuppressLint("SimpleDateFormat")

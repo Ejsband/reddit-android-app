@@ -45,7 +45,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:textSize="20sp"
-        android:text="add"
+        android:text="@string/add_friend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:text="comments"
+        android:text="@string/comments"
         app:layout_constraintBottom_toTopOf="@+id/recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

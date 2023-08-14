@@ -3,7 +3,6 @@ package com.project.reddit.ui.subreddits
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CommentsFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
+class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
 
     private var _binding: FragmentCommentsBinding? = null
     private val binding get() = _binding!!
@@ -44,8 +43,6 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
         binding.postText.text = arguments?.getString("postText")!!
 
         val link = arguments?.getString("postLink")!!
-        Log.d("XXXXX", link)
-
 
         loadComments(link)
 
@@ -54,9 +51,6 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
             bundle.putString("postLink", link)
             findNavController().navigate(R.id.action_navigation_comments_to_navigation_comments_list, bundle)
         }
-
-
-
     }
 
     override fun onDestroyView() {
@@ -99,7 +93,37 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnSaveButtonClickListener {
         }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onTextClick(view: View, position: Int) {
         findNavController().navigate(R.id.action_navigation_comments_to_navigation_profile_info)
+    }
+
+    override fun onSaveButtonClick(view: View, position: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                viewModel.saveComment(comments.data.children[position].data.name)
+            }
+        }
+        Toast.makeText(
+            requireContext(),
+            "Comment was saved",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onMinusButtonClick(view: View, position: Int) {
+        view.rootView
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                viewModel.voteComment(comments.data.children[position].data.name, "-1")
+            }
+        }
+    }
+
+    override fun onPlusButtonClick(view: View, position: Int) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                viewModel.voteComment(comments.data.children[position].data.name, "1")
+            }
+        }
     }
 }

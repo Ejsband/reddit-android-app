@@ -37,9 +37,9 @@ class FavouriteCommentAdapter(
         Glide.with(holder.binding.imageView).load(com.project.reddit.R.drawable.ic_comment)
             .into(holder.binding.imageView)
 
-        holder.binding.postName.text = item.info.postTitle
+//        holder.binding.postName.text = item.info.postTitle
         holder.binding.body.text = item.info.body
-        holder.binding.author.text = item.info.author
+//        holder.binding.author.text = item.info.author
     }
 }
 

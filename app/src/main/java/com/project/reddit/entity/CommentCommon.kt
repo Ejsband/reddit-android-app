@@ -25,7 +25,7 @@ class Comment(
     @SerializedName("created_utc")
     val creationTime: Int,
     @SerializedName("score")
-    val score: Int,
+    var score: Int,
     @SerializedName("body")
     val text: String
 )
