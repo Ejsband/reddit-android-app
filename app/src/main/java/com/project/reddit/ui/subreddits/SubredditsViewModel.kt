@@ -116,7 +116,8 @@ class SubredditsViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
             val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
-            val comments = commonUseCase.getTopicComments(header)
+            val data = link.split("/")
+            val comments = commonUseCase.getTopicComments(header, data[2], data[4], data[5])
             Log.d("XXXXX", comments.size.toString())
             _commentState.value = comments[1]
         }

@@ -55,8 +55,8 @@ class CommonRetrofitRepository @Inject constructor() {
         return commonApi.getSubredditTopics(accessToken, subreddit, limit)
     }
 
-    suspend fun getTopicComments(accessToken: String): List<CommentCommon> {
-        return commonApi.getTopicComments(accessToken)
+    suspend fun getTopicComments(accessToken: String, subreddit: String, commentId: String, post: String): List<CommentCommon> {
+        return commonApi.getTopicComments(accessToken, subreddit, commentId, post)
     }
 
     suspend fun saveComment(accessToken: String, commentId: String) {
