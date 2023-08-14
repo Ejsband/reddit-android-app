@@ -67,7 +67,6 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
         }, viewLifecycleOwner)
 
         val link = arguments?.getString("postLink")!!
-        Log.d("XXXXX", link)
 
         loadComments(link)
     }
@@ -113,7 +112,22 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
     }
 
     override fun onRootViewClick(view: View, position: Int) {
-        findNavController().navigate(R.id.action_navigation_comments_to_navigation_profile_info)
+        val bundle = Bundle()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                bundle.putString("fragment", "commentList")
+                bundle.putString("userName", comments.data.children[position].data.author)
+                bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+                bundle.putString("postTitle", arguments?.getString("postTitle")!!)
+                bundle.putString("postText", arguments?.getString("postText")!!)
+                bundle.putString("postLink", arguments?.getString("postLink")!!)
+                findNavController().navigate(
+                    R.id.action_navigation_comments_list_to_navigation_profile_info,
+                    bundle
+                )
+            }
+        }
     }
 
     override fun onSaveButtonClick(view: View, position: Int) {

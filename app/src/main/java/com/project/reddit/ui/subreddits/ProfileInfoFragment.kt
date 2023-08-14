@@ -54,11 +54,21 @@ class ProfileInfoFragment : Fragment() {
                     android.R.id.home -> {
                         val bundle = Bundle()
 
-                        bundle.putString("postTitle", arguments?.getString("postTitle")!!)
-                        bundle.putString("postText", arguments?.getString("postText")!!)
-                        bundle.putString("postLink", arguments?.getString("postLink")!!)
-                        bundle.putString("subredditName", arguments?.getString("subredditName")!!)
-                        findNavController().navigate(R.id.action_navigation_profile_info_to_navigation_comments, bundle)
+                        if (arguments?.getString("fragment")!! == "comment") {
+                            bundle.putString("postTitle", arguments?.getString("postTitle")!!)
+                            bundle.putString("postText", arguments?.getString("postText")!!)
+                            bundle.putString("postLink", arguments?.getString("postLink")!!)
+                            bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+                            findNavController().navigate(R.id.action_navigation_profile_info_to_navigation_comments, bundle)
+                        }
+
+                        if (arguments?.getString("fragment")!! == "commentList") {
+                            bundle.putString("postTitle", arguments?.getString("postTitle")!!)
+                            bundle.putString("postText", arguments?.getString("postText")!!)
+                            bundle.putString("postLink", arguments?.getString("postLink")!!)
+                            bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+                            findNavController().navigate(R.id.action_navigation_profile_info_to_navigation_comments_list, bundle)
+                        }
                         return true
                     }
                 }

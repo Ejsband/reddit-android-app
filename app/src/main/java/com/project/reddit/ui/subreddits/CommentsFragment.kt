@@ -71,10 +71,10 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
 
         binding.showAllButton.setOnClickListener {
             val bundle = Bundle()
-            bundle.putString("postLink", link)
             bundle.putString("subredditName", arguments?.getString("subredditName")!!)
             bundle.putString("postTitle", arguments?.getString("postTitle")!!)
             bundle.putString("postText", arguments?.getString("postText")!!)
+            bundle.putString("postLink", arguments?.getString("postLink")!!)
             findNavController().navigate(R.id.action_navigation_comments_to_navigation_comments_list, bundle)
         }
     }
@@ -128,6 +128,7 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.commentState.collect { comments ->
                 val bundle = Bundle()
+                bundle.putString("fragment", "comment")
                 bundle.putString("userName", comments.data.children[position].data.author)
                 bundle.putString("subredditName", arguments?.getString("subredditName")!!)
                 bundle.putString("postTitle", arguments?.getString("postTitle")!!)
