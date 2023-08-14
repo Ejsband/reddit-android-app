@@ -12,3 +12,8 @@ class User(
     @SerializedName("num_friends")
     val friendsAmount: Int
 )
+
+class UserData(
+    @SerializedName("data")
+    val data: User
+)

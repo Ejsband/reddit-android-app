@@ -8,6 +8,8 @@ import com.project.reddit.domain.CommonUseCase
 import com.project.reddit.entity.Comment
 import com.project.reddit.entity.CommentCommon
 import com.project.reddit.entity.CommentCommonChildren
+import com.project.reddit.entity.CommentData
+import com.project.reddit.entity.CommentDataChildren
 import com.project.reddit.entity.CommentItemData
 import com.project.reddit.entity.Post
 import com.project.reddit.entity.PostCommon
@@ -17,6 +19,10 @@ import com.project.reddit.entity.Subreddit
 import com.project.reddit.entity.SubredditCommon
 import com.project.reddit.entity.SubredditCommonChildren
 import com.project.reddit.entity.SubredditData
+import com.project.reddit.entity.User
+import com.project.reddit.entity.UserActivityComment
+import com.project.reddit.entity.UserActivityCommentData
+import com.project.reddit.entity.UserData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +35,63 @@ class SubredditsViewModel @Inject constructor(
     private val accessTokenDataUseCase: AccessTokenDataUseCase,
     private val commonUseCase: CommonUseCase
 ) : ViewModel() {
+
+    private val _userCommentState = MutableStateFlow(
+        UserActivityCommentData(
+            CommentDataChildren(
+                mutableListOf(
+                    CommentData(
+                        UserActivityComment(
+                            name = "",
+                            author = "",
+                            body = "Nothing to show",
+                            postTitle = "",
+                            subreddit = ""
+                        )
+                    )
+                )
+            )
+        )
+    )
+    val userCommentState = _userCommentState.asStateFlow()
+
+    fun reloadUserCommentState(alias: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            viewModelScope.launch(Dispatchers.IO) {
+                val comments = commonUseCase.getUserActivityComments(header, alias)
+                if (comments.data.children.isEmpty()) {
+
+                } else {
+                    _userCommentState.value = comments
+                }
+            }
+        }
+    }
+
+    private val _userInfoState = MutableStateFlow(
+        UserData(
+            User(
+                id = "000000",
+                name = "username",
+                image = "",
+                friendsAmount = 0
+            )
+        )
+    )
+    val userInfoState = _userInfoState.asStateFlow()
+
+    fun reloadUserInfoState(alias: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val accessTokenData = accessTokenDataUseCase.getAccessToken("key")
+            val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
+            viewModelScope.launch(Dispatchers.IO) {
+                val user = commonUseCase.getUserInfo(header, alias)
+                _userInfoState.value = user
+            }
+        }
+    }
 
     private val _commentState = MutableStateFlow(
         CommentCommon(

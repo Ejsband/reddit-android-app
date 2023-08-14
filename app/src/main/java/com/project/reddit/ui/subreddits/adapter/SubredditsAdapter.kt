@@ -41,29 +41,27 @@ class SubredditsAdapter(
     }
 
     inner class SubredditViewHolder(val binding: ViewSubredditBinding) :
-        RecyclerView.ViewHolder(binding.root),
-        OnClickListener {
+        RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.button.setOnClickListener(this)
-        }
-
-        override fun onClick(p0: View?) {
-            val position = absoluteAdapterPosition
-            if (position != RecyclerView.NO_POSITION) {
+            binding.root.setOnClickListener {
+                listener.onRootViewClick(binding.root, absoluteAdapterPosition)
+            }
+            binding.button.setOnClickListener {
                 if (binding.button.text == "subscribe") {
                     binding.button.text = "unsubscribe"
                     binding.button.setBackgroundColor(Color.parseColor("#eb5528"))
-                    listener.onItemClick(position)
+                    listener.onSubscribeButtonClick(binding.root, absoluteAdapterPosition)
                 } else {
                     binding.button.text = "subscribe"
                     binding.button.setBackgroundColor(Color.parseColor("#000000"))
-                    listener.onItemClick(position)
+                    listener.onSubscribeButtonClick(binding.root, absoluteAdapterPosition)
                 }
             }
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onSubscribeButtonClick(view: View, position: Int)
+        fun onRootViewClick(view: View, position: Int)
     }
 }

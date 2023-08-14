@@ -7,6 +7,7 @@ import com.project.reddit.entity.SubredditData
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
+import com.project.reddit.entity.UserData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -28,7 +29,7 @@ interface CommonApi {
     suspend fun getUserInfo(
         @Header("Authorization") accessToken: String,
         @Path("userAlias") userAlias: String
-    ): User
+    ): UserData
 
     @GET("/user/{userAlias}/submitted")
     suspend fun getUserActivityPosts(

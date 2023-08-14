@@ -8,6 +8,7 @@ import com.project.reddit.entity.SubredditData
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
+import com.project.reddit.entity.UserData
 import javax.inject.Inject
 
 class CommonRetrofitRepository @Inject constructor() {
@@ -18,7 +19,7 @@ class CommonRetrofitRepository @Inject constructor() {
         return commonApi.getUser(accessToken)
     }
 
-    suspend fun getUserInfo(accessToken: String, userAlias: String): User {
+    suspend fun getUserInfo(accessToken: String, userAlias: String): UserData {
         return commonApi.getUserInfo(accessToken, userAlias)
     }
 

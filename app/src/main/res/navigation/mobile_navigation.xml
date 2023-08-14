@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/navigation_comments_list"
         android:name="com.project.reddit.ui.subreddits.CommentsListFragment"
-        android:label="@string/title_subreddit_comments"
+        android:label="@string/title_subreddit_comments_list"
         tools:layout="@layout/fragment_comments_list" >
         <action
             android:id="@+id/action_navigation_comments_list_to_navigation_comments"

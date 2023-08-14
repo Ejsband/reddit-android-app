@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import com.project.reddit.R
 import com.project.reddit.databinding.FragmentSubredditsBinding
 import com.project.reddit.ui.subreddits.adapter.SubredditsAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -27,6 +29,8 @@ class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
     private val binding get() = _binding!!
 
     private val viewModel: SubredditsViewModel by viewModels()
+
+    private var name = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,6 +79,7 @@ class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.popularSubredditState.collect { subreddit ->
                         myAdapter.setData(subreddit.data.children)
+                        name = 1
                     }
                 }
             }
@@ -96,6 +101,7 @@ class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.newSubredditState.collect { subreddit ->
                         myAdapter.setData(subreddit.data.children)
+                        name = 2
                     }
                 }
             }
@@ -122,6 +128,7 @@ class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
                     viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                         viewModel.searchSubredditState.collect { subreddit ->
                             myAdapter.setData(subreddit.data.children)
+                            name = 3
                         }
                     }
                 }
@@ -146,27 +153,56 @@ class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {
         }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onSubscribeButtonClick(view: View, position: Int) {
 
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.popularSubredditState.collect { subreddit ->
+    override fun onRootViewClick(view: View, position: Int) {
+        when (name) {
+            0 -> {}
+            1 -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.popularSubredditState.collect { subreddit ->
+                        val data = subreddit.data.children[position]
+                        val bundle = Bundle()
+                        val editedTitle = data.data.url.substring(3, data.data.url.length - 1)
+                        bundle.putString("subredditName", editedTitle)
+                        findNavController().navigate(
+                            R.id.action_navigation_subreddits_to_navigation_posts,
+                            bundle
+                        )
+                    }
+                }
+            }
 
-                    val data = subreddit.data.children[position]
-                    val bundle = Bundle()
-
-                    bundle.putString("subredditName", data.data.title)
-
-                    findNavController().navigate(R.id.action_navigation_subreddits_to_navigation_posts, bundle)
+            2 -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.newSubredditState.collect { subreddit ->
+                        val data = subreddit.data.children[position]
+                        val bundle = Bundle()
+                        val editedTitle = data.data.url.substring(3, data.data.url.length - 1)
+                        bundle.putString("subredditName", editedTitle)
+                        findNavController().navigate(
+                            R.id.action_navigation_subreddits_to_navigation_posts,
+                            bundle
+                        )
+                    }
+                }
+            }
+            3 -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.searchSubredditState.collect { subreddit ->
+                        val data = subreddit.data.children[position]
+                        val bundle = Bundle()
+                        val editedTitle = data.data.url.substring(3, data.data.url.length - 1)
+                        bundle.putString("subredditName", editedTitle)
+                        findNavController().navigate(
+                            R.id.action_navigation_subreddits_to_navigation_posts,
+                            bundle
+                        )
+                    }
                 }
             }
         }
-
-//        Toast.makeText(
-//            requireContext(),
-//            "Button was clicked",
-//            Toast.LENGTH_LONG
-//        ).show()
     }
 }

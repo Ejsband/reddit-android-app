@@ -65,6 +65,7 @@ class FavouriteViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 val user = commonUseCase.getUser(header)
                 val posts = commonUseCase.getUserActivityPosts(header, "Mipedian_Speed")
+//                val posts = commonUseCase.getUserActivityPosts(header, user.name)
 
                 if (posts.data.children.isEmpty()) {
 

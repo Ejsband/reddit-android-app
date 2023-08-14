@@ -48,8 +48,8 @@ class CommentsAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         init {
-            binding.commentText.setOnClickListener {
-                listener.onTextClick(binding.commentText, absoluteAdapterPosition)
+            binding.root.setOnClickListener {
+                listener.onRootViewClick(binding.root, absoluteAdapterPosition)
             }
             binding.saveButton.setOnClickListener {
                 listener.onSaveButtonClick(binding.saveButton, absoluteAdapterPosition)
@@ -59,9 +59,7 @@ class CommentsAdapter(
                     downVoted = false
                     upVoted = false
                 }
-
                 if (downVoted) {
-
                 } else {
                     var votes: Int = binding.votesNumber.text.toString().toInt()
                     binding.votesNumber.text = (votes - 1).toString()
@@ -70,18 +68,13 @@ class CommentsAdapter(
                     downVoted = true
                     upVoted = false
                 }
-
-
             }
             binding.plusButton.setOnClickListener {
-
                 if (votePosition != -1 && votePosition != absoluteAdapterPosition) {
                     downVoted = false
                     upVoted = false
                 }
-
                 if (upVoted) {
-
                 } else {
                     var votes: Int = binding.votesNumber.text.toString().toInt()
                     binding.votesNumber.text = (votes + 1).toString()
@@ -95,7 +88,7 @@ class CommentsAdapter(
     }
 
     interface OnItemClickListener {
-        fun onTextClick(view: View, position: Int)
+        fun onRootViewClick(view: View, position: Int)
         fun onSaveButtonClick(view: View, position: Int)
         fun onMinusButtonClick(view: View, position: Int)
         fun onPlusButtonClick(view: View, position: Int)

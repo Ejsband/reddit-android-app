@@ -5,13 +5,14 @@
     <string name="title_posts">Posts</string>
     <string name="title_subreddit_info">Subreddit info</string>
     <string name="title_subreddit_comments">Post</string>
+    <string name="title_subreddit_comments_list">All comments</string>
     <string name="title_favourite">Favourite</string>
     <string name="title_profile">Profile</string>
     <string name="title_profile_friend">Friend list</string>
 
     <!--    Profile info-->
 
-    <string name="comments">USER COMMENTS</string>
+    <string name="comments">COMMENTS</string>
     <string name="add_friend">friend</string>
     <string name="remove_friend">unfriend</string>
 

@@ -4,9 +4,14 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -39,6 +44,24 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
+                when (menuItem.itemId) {
+                    android.R.id.home -> {
+                        val bundle = Bundle()
+                        bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+                        findNavController().navigate(R.id.action_navigation_comments_to_navigation_posts, bundle)
+                        return true
+                    }
+                }
+                return false
+            }
+        }, viewLifecycleOwner)
+
         binding.postTitle.text = arguments?.getString("postTitle")!!
         binding.postText.text = arguments?.getString("postText")!!
 
@@ -49,6 +72,9 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
         binding.showAllButton.setOnClickListener {
             val bundle = Bundle()
             bundle.putString("postLink", link)
+            bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+            bundle.putString("postTitle", arguments?.getString("postTitle")!!)
+            bundle.putString("postText", arguments?.getString("postText")!!)
             findNavController().navigate(R.id.action_navigation_comments_to_navigation_comments_list, bundle)
         }
     }
@@ -69,7 +95,11 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.commentState.collect { comments ->
-                        myAdapter.setData(comments.data.children)
+                        if (comments.data.children.size > 5) {
+                            myAdapter.setData(comments.data.children.subList(0, 5))
+                        } else {
+                            myAdapter.setData(comments.data.children)
+                        }
                     }
                 }
             }
@@ -93,8 +123,19 @@ class CommentsFragment : Fragment(), CommentsAdapter.OnItemClickListener {
         }
     }
 
-    override fun onTextClick(view: View, position: Int) {
-        findNavController().navigate(R.id.action_navigation_comments_to_navigation_profile_info)
+    override fun onRootViewClick(view: View, position: Int) {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                val bundle = Bundle()
+                bundle.putString("userName", comments.data.children[position].data.author)
+                bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+                bundle.putString("postTitle", arguments?.getString("postTitle")!!)
+                bundle.putString("postText", arguments?.getString("postText")!!)
+                bundle.putString("postLink", arguments?.getString("postLink")!!)
+                findNavController().navigate(R.id.action_navigation_comments_to_navigation_profile_info, bundle)
+            }
+        }
     }
 
     override fun onSaveButtonClick(view: View, position: Int) {

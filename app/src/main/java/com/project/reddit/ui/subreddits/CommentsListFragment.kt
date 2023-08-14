@@ -5,14 +5,21 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
+import com.project.reddit.R
 import com.project.reddit.databinding.FragmentCommentsListBinding
 import com.project.reddit.entity.CommentCommon
 import com.project.reddit.ui.subreddits.adapter.CommentsAdapter
@@ -36,6 +43,28 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as MenuHost).addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+
+                when (menuItem.itemId) {
+                    android.R.id.home -> {
+                        val bundle = Bundle()
+
+                        bundle.putString("postTitle", arguments?.getString("postTitle")!!)
+                        bundle.putString("postText", arguments?.getString("postText")!!)
+                        bundle.putString("postLink", arguments?.getString("postLink")!!)
+                        bundle.putString("subredditName", arguments?.getString("subredditName")!!)
+                        findNavController().navigate(R.id.action_navigation_comments_list_to_navigation_comments, bundle)
+                        return true
+                    }
+                }
+                return false
+            }
+        }, viewLifecycleOwner)
 
         val link = arguments?.getString("postLink")!!
         Log.d("XXXXX", link)
@@ -83,19 +112,37 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
         }
     }
 
-    override fun onTextClick(view: View, position: Int) {
-        TODO("Not yet implemented")
+    override fun onRootViewClick(view: View, position: Int) {
+        findNavController().navigate(R.id.action_navigation_comments_to_navigation_profile_info)
     }
 
     override fun onSaveButtonClick(view: View, position: Int) {
-        TODO("Not yet implemented")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                viewModel.saveComment(comments.data.children[position].data.name)
+            }
+        }
+        Toast.makeText(
+            requireContext(),
+            "Comment was saved",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun onMinusButtonClick(view: View, position: Int) {
-        TODO("Not yet implemented")
+        view.rootView
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                viewModel.voteComment(comments.data.children[position].data.name, "-1")
+            }
+        }
     }
 
     override fun onPlusButtonClick(view: View, position: Int) {
-        TODO("Not yet implemented")
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.commentState.collect { comments ->
+                viewModel.voteComment(comments.data.children[position].data.name, "1")
+            }
+        }
     }
 }

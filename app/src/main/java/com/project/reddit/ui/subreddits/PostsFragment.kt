@@ -89,6 +89,7 @@ class PostsFragment : Fragment() {
                 bundle.putString("postTitle", viewModel.postState.value.data.children[position].data.title)
                 bundle.putString("postText", viewModel.postState.value.data.children[position].data.text)
                 bundle.putString("postLink", viewModel.postState.value.data.children[position].data.link)
+                bundle.putString("subredditName", subredditName)
                 findNavController().navigate(R.id.action_navigation_posts_to_navigation_comments, bundle)
             }
             binding.recycler.adapter = myAdapter

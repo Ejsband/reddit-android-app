@@ -7,6 +7,7 @@ import com.project.reddit.entity.SubredditData
 import com.project.reddit.entity.User
 import com.project.reddit.entity.UserActivityCommentData
 import com.project.reddit.entity.UserActivityPostData
+import com.project.reddit.entity.UserData
 import com.project.reddit.repository.CommonRetrofitRepository
 import javax.inject.Inject
 
@@ -16,7 +17,7 @@ class CommonUseCase @Inject constructor(private val commonRetrofitRepository: Co
         return commonRetrofitRepository.getUser(accessToken)
     }
 
-    suspend fun getUserInfo(accessToken: String, userAlias: String): User {
+    suspend fun getUserInfo(accessToken: String, userAlias: String): UserData {
         return commonRetrofitRepository.getUserInfo(accessToken, userAlias)
     }
 
