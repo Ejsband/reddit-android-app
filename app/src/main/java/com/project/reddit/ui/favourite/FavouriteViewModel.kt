@@ -64,8 +64,8 @@ class FavouriteViewModel @Inject constructor(
             val header = "${accessTokenData.tokenType} ${accessTokenData.accessToken}"
             viewModelScope.launch(Dispatchers.IO) {
                 val user = commonUseCase.getUser(header)
-                val posts = commonUseCase.getUserActivityPosts(header, "Mipedian_Speed")
-//                val posts = commonUseCase.getUserActivityPosts(header, user.name)
+//                val posts = commonUseCase.getUserActivityPosts(header, "Mipedian_Speed")
+                val posts = commonUseCase.getUserActivityPosts(header, user.name)
 
                 if (posts.data.children.isEmpty()) {
 
@@ -102,11 +102,15 @@ class FavouriteViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 val user = commonUseCase.getUser(header)
                 val posts = commonUseCase.getUserActivitySavedPosts(header, user.name)
-
-                if (posts.data.children.isEmpty()) {
-
+                val postFiltered = mutableListOf<PostData>()
+                for (item in posts.data.children) {
+                    if (item.info.name.contains("t3_")) {
+                        postFiltered.add(item)
+                    }
+                }
+                if (postFiltered.isEmpty()) {
                 } else {
-                    _userSavedPostState.value = posts
+                    _userSavedPostState.value = UserActivityPostData(PostDataChildren(postFiltered))
                 }
             }
         }
