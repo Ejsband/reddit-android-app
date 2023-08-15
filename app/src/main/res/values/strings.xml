@@ -57,5 +57,7 @@
 
     <string name="credentials" translatable="false">Basic eUR6S2FTSG54a2tQZlJiWnRJSU1SQTo=</string>
     <string name="grant_type" translatable="false">authorization_code</string>
+    <string name="forward"><![CDATA[>>]]></string>
+    <string name="back"><![CDATA[<<]]></string>
 
 </resources>

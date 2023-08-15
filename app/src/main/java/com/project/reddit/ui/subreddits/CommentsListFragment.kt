@@ -1,5 +1,6 @@
 package com.project.reddit.ui.subreddits
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
@@ -33,6 +34,9 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
     private val binding get() = _binding!!
     private val viewModel: SubredditsViewModel by viewModels()
 
+    private var lastPage = 0
+    private var currentPage = 1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,7 +62,10 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
                         bundle.putString("postText", arguments?.getString("postText")!!)
                         bundle.putString("postLink", arguments?.getString("postLink")!!)
                         bundle.putString("subredditName", arguments?.getString("subredditName")!!)
-                        findNavController().navigate(R.id.action_navigation_comments_list_to_navigation_comments, bundle)
+                        findNavController().navigate(
+                            R.id.action_navigation_comments_list_to_navigation_comments,
+                            bundle
+                        )
                         return true
                     }
                 }
@@ -68,7 +75,15 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
 
         val link = arguments?.getString("postLink")!!
 
-        loadComments(link)
+        loadComments(link, 1)
+
+        binding.back.setOnClickListener {
+            loadComments(link, binding.page.text.toString().toInt() - 1)
+        }
+
+        binding.forward.setOnClickListener {
+            loadComments(link, binding.page.text.toString().toInt() + 1)
+        }
     }
 
     override fun onDestroyView() {
@@ -76,8 +91,8 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
         _binding = null
     }
 
-    private fun loadComments(link: String) {
-
+    @SuppressLint("SetTextI18n")
+    private fun loadComments(link: String, page: Int) {
         if (checkConnection()) {
             viewModel.reloadCommentsState(link)
             val data: CommentCommon = viewModel.commentState.value
@@ -87,7 +102,24 @@ class CommentsListFragment : Fragment(), CommentsAdapter.OnItemClickListener {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                     viewModel.commentState.collect { comments ->
-                        myAdapter.setData(comments.data.children)
+
+                        val chunked = comments.data.children.chunked(5)
+                        lastPage = chunked.size
+
+                        if (page < chunked.size) {
+                            binding.page.text = (page).toString()
+                            binding.back.isEnabled = binding.page.text != "1"
+                            binding.forward.isEnabled = true
+                            myAdapter.setData(chunked[page - 1])
+                            Log.d("XXXXX", "if list size - ${chunked.size}")
+                            Log.d("XXXXX", "if page number - ${page}")
+                        } else {
+                            binding.page.text = (page).toString()
+                            binding.forward.isEnabled = false
+                            myAdapter.setData(chunked[page - 1])
+                            Log.d("XXXXX", "else list size - ${chunked.size}")
+                            Log.d("XXXXX", "else page number - ${page}")
+                        }
                     }
                 }
             }
