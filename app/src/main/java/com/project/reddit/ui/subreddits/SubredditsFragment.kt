@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,8 @@ import com.project.reddit.databinding.FragmentSubredditsBinding
 import com.project.reddit.ui.subreddits.adapter.SubredditsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.format.DateTimeFormatter
 
 @AndroidEntryPoint
 class SubredditsFragment : Fragment(), SubredditsAdapter.OnItemClickListener {

@@ -18,5 +18,7 @@ class AccessTokenData(
     @ColumnInfo(name = "refresh_token")
     val refreshToken: String,
     @ColumnInfo(name = "scope")
-    val scope: String
+    val scope: String,
+    @ColumnInfo(name = "timestamp")
+    val timestamp: String
 )

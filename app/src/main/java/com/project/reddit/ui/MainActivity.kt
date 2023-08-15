@@ -1,6 +1,7 @@
 package com.project.reddit.ui
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity

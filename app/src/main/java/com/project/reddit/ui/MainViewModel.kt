@@ -1,5 +1,6 @@
 package com.project.reddit.ui
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,7 +39,6 @@ class MainViewModel @Inject constructor(
                     code,
                     redirectUri
                 )
-//            Log.d("XXXXXX", "The access token is ${accessToken.accessToken}")
 
             withContext(Dispatchers.IO) {
                 val accessTokenData =  accessTokenDataUseCase.getAccessToken("key")
@@ -49,7 +52,8 @@ class MainViewModel @Inject constructor(
                                 accessToken.tokenType,
                                 accessToken.expiration,
                                 accessToken.refreshToken,
-                                accessToken.scope
+                                accessToken.scope,
+                                System.currentTimeMillis().toString()
                             )
                         )
                     }
@@ -65,7 +69,8 @@ class MainViewModel @Inject constructor(
                                 accessToken.tokenType,
                                 accessToken.expiration,
                                 accessToken.refreshToken,
-                                accessToken.scope
+                                accessToken.scope,
+                                System.currentTimeMillis().toString()
                             )
                         )
                     }
@@ -87,11 +92,25 @@ class MainViewModel @Inject constructor(
                         _accessTokenExists.value = false
                     }
                 } else {
-                    withContext(Dispatchers.Main) {
-                        _accessTokenExists.value = true
+                    if (TimeUnit.MILLISECONDS.toMinutes(System.currentTimeMillis() - accessTokenData.timestamp.toLong()) < 1400 ) {
+                        withContext(Dispatchers.Main) {
+                            _accessTokenExists.value = true
+                        }
+                    } else {
+                        deleteAccessTokenData()
+                        withContext(Dispatchers.Main) {
+                            _accessTokenExists.value = false
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun deleteAccessTokenData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = accessTokenDataUseCase.getAccessToken("key")
+            accessTokenDataUseCase.deleteAccessToken(data)
         }
     }
 }

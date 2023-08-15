@@ -9,7 +9,7 @@ import com.project.reddit.entity.UserSubmittedPostData
 
 @Database(
     entities = [AccessTokenData::class, UserSavedPostData::class, UserSubmittedPostData::class, UserCommentData::class],
-    version = 3
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun accessTokenDataDao(): AccessTokenDataDao
